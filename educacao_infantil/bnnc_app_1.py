@@ -15,6 +15,10 @@ import os
 files = [x for x in os.listdir() if x.endswith("_inf.csv") ]
 
 
+for x,y  in enumerate(files):
+    exec(f'df_{x} = pd.read_csv({"y"})')
+
+
 df_ef_1 = pd.read_excel("corpo_gestos_movimentos.xlsx")
 
 df_ef_2 = pd.read_excel('escuta_fala_pensamento.xlsx')
@@ -47,7 +51,7 @@ df_ef_3 = df_ef.query('campos_experiencias in "Espaços, tempos, quantidades, re
 df_ef_4 = df_ef.query('campos_experiencias in "O eu, o outro e o nós"')
 """
 
-#a partir daqui
+#habilidades
 
 df_ef_1['cod_apr'] = df_ef_1['obj'].apply(lambda x: ' '.join(re.findall(r'\((.*\d)', x)))
 
@@ -62,6 +66,8 @@ df_ef_2['descricao_cod'] = df_ef_2['obj'].apply(lambda x: ' '.join(re.findall(r'
 df_ef_3['descricao_cod'] = df_ef_3['obj'].apply(lambda x: ' '.join(re.findall(r'\(.*\d\)\s\n(.*.)', x)))
 df_ef_4['descricao_cod'] = df_ef_4['obj'].apply(lambda x: ' '.join(re.findall(r'\(.*\d\)\s\n(.*.)', x)))
 
+#faixa etária
+
 
 
 
@@ -73,8 +79,7 @@ df_ef_4.to_csv('eu_outro_ed_if.csv')
 
 
 
-#falta concatenar
-
+#
 df_ef_1 = pd.read_csv('corpo_gestos_ed_if.csv')
 
 df_ef_2 = pd.read_csv('escuta_fala_ed_if.csv')
@@ -84,12 +89,6 @@ df_ef_4 = pd.read_csv('eu_outro_ed_if.csv')
 
 df = pd.concat([df_ef_1, df_ef_2, df_ef_3, df_ef_4], ignore_index= True)
 df.drop('obj', axis=1, inplace=True)
-
-df.to_csv('df_edu_if.csv')
-
-from sqlalchemy import create_engine
-
-engine = create_engine('sqlite://', echo=False)
 
 
 
